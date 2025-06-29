@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Google Drive Direct Download Link Generator</title>
+  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
+  <style>
+    #mainpanel {
+  margin-top: 70px;
+}
+img {
+  max-width: 100%;
+  height: auto;
+}
+.panel-primary>.panel-heading {
+  color: #fff;
+  background-color: #ff3b30;
+  border-color: #ff3b30;
+}
+.panel-primary {
+  border-color: #ff3b30;
+}
+  </style>
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div class="container">
+  <div class="panel panel-default panel-primary" id="mainpanel">
+    <div class="panel-heading">
+      <h1 class="panel-title">Google Drive Direct Download Link Generator</h1>
+    </div>
+    <div class="panel-body">
+      <form>
+        <div class="form-group">
+          <label for="sharelink">Paste Google Drive Link Here And Hit Enter</label>
+          <input type="text" class="form-control" id="sharelink" placeholder="https://drive.google.com/file/d/XX-X__XXXXX-XXXXXXXXXXXXXXXX/view?usp=sharing" autofocus="true">
+        </div>
+        <div class="form-group">
+          <label for="downloadlink">Direct Download link</label>
+          <div class="input-group">
+            <input type="text" class="form-control" id="downloadlink" readonly>
+            <span class="input-group-btn">
+        <button id="copylinkbtn" class="btn btn-danger" type="button" data-clipboard-target="#downloadlink" disabled>Copy Direct Link</button>
+      </span>
+          </div>
+        </div>
+      </form>
+      <br>
+      <br>
+      <br>
+      
+    </div>
+    <div class="panel-footer text-center">&copy; @dulpansrgih_</div>
+  </div>
+</div>
+<!-- partial -->
+  <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
+<script src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js'></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js'></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/mouse0270-bootstrap-notify/3.1.5/bootstrap-notify.min.js'></script>
+
+<script>
+    (function($) {
+  $(function() {
+    var $shareLink = $('#sharelink'),
+      $downloadLink = $('#downloadlink'),
+      $copyButton = $('#copylinkbtn'),
+      clipboard;
+
+    $shareLink.on('keyup paste', function() {
+      var link = $shareLink.val(),
+        l = link.replace(/\/file\/d\/(.+)\/(.+)/, "/uc?export=download&id=$1");
+      if(l !== link) {
+        $downloadLink.val(l);
+        $copyButton.removeAttr('disabled');
+      } else {
+        $downloadLink.val('');
+        $copyButton.attr('disabled', 'disabled');
+      }
+    });
+
+    $downloadLink.on('click', function() {
+      $downloadLink.select();
+    });
+
+    clipboard = new Clipboard('#copylinkbtn');
+    clipboard.on('success', function(e) {
+      $.notify({
+        icon: 'glyphicon glyphicon-ok-circle',
+        title: 'Direct Link Copied To Clipboard:',
+        message: e.text,
+        url: e.text,
+        target: '_blank'
+      }, {
+        // settings
+        type: "success",
+        placement: {
+          from: "top",
+          align: "center"
+        }
+      });
+
+      // $.notify(e.text + " copied to clipboard.");
+
+      e.clearSelection();
+    });
+
+  });
+})(jQuery);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IP Address Details Viewer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Include Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f5f5f5;
+        }
+        .container {
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+        .card {
+            border: none;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        .card-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .form-label {
+            font-weight: bold;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .list-group-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .btn-outline-secondary {
+            border-color: #ccc;
+            color: #333;
+        }
+        .btn-outline-secondary:hover {
+            border-color: #aaa;
+            color: #222;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">IP Address Details Viewer</h2>
+                <div class="mb-3">
+                    <label for="ipInput" class="form-label">Enter an IP address:</label>
+                    <input type="text" class="form-control" id="ipInput" placeholder="Enter Your IP Address...">
+                </div>
+                <button class="btn btn-primary" onclick="getIpDetails()">Get Details</button>
+                <h3 class="mt-4">IP Address Details:</h3>
+                <ul class="list-group" id="ipDetails">
+                    <li class="list-group-item">
+                        <strong>IP Address:</strong>
+                        <span id="ipAddress">N/A</span>
+                        <button class="btn btn-outline-secondary" onclick="copyToClipboard('ipAddress')">Copy</button>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>City:</strong>
+                        <span id="city">N/A</span>
+                        <button class="btn btn-outline-secondary" onclick="copyToClipboard('city')">Copy</button>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Region:</strong>
+                        <span id="region">N/A</span>
+                        <button class="btn btn-outline-secondary" onclick="copyToClipboard('region')">Copy</button>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Country:</strong>
+                        <span id="country">N/A</span>
+                        <button class="btn btn-outline-secondary" onclick="copyToClipboard('country')">Copy</button>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Location:</strong>
+                        <span id="location">N/A</span>
+                        <button class="btn btn-outline-secondary" onclick="copyToClipboard('location')">Copy</button>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>ISP:</strong>
+                        <span id="isp">N/A</span>
+                        <button class="btn btn-outline-secondary" onclick="copyToClipboard('isp')">Copy</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Bootstrap JS and Popper.js (required for Bootstrap) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js"></script>
+
+    <script>
+        function getIpDetails() {
+            const ipInput = document.getElementById('ipInput');
+            const ipAddress = document.getElementById('ipAddress');
+            const city = document.getElementById('city');
+            const region = document.getElementById('region');
+            const country = document.getElementById('country');
+            const location = document.getElementById('location');
+            const isp = document.getElementById('isp');
+
+            const ip = ipInput.value;
+            fetch(`http://ip-api.com/json/${ip}`)
+                .then(response => response.json())
+                .then(data => {
+                    ipAddress.textContent = data.query || 'N/A';
+                    city.textContent = data.city || 'N/A';
+                    region.textContent = data.regionName || 'N/A';
+                    country.textContent = data.country || 'N/A';
+                    location.textContent = `${data.lat}, ${data.lon}` || 'N/A';
+                    isp.textContent = data.isp || 'N/A';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        function copyToClipboard(id) {
+            const element = document.getElementById(id);
+            const text = element.textContent;
+            const tempInput = document.createElement('input');
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+        }
+    </script>
+</body>
+</html>

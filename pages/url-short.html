@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>🔗 URL Shortener - Free & Fast Link Shortener</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="https://i.ibb.co/j9n6nZxD/Op-log.png" type="image/png">
+
+  <!-- Description for SEO -->
+  <meta name="description" content="Free & Fast URL Shortener. Shorten your long links easily and share them anywhere. Try it now!">
+
+  <!-- Keywords for SEO -->
+  <meta name="keywords" content="URL Shortener, Link Shortener, Free URL Shortener, Short Links, Easy Link Sharing">
+
+  <!-- Open Graph Meta Tags for Social Media Preview -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://t.me/Opleech_WD">
+  <meta property="og:title" content="🔗 URL Shortener - Free & Fast Link Shortener">
+  <meta property="og:description" content="Easily shorten long URLs and share them with friends, family, and social media.">
+  <meta property="og:image" content="https://i.ibb.co/j9n6nZxD/Op-log.png">
+  <!-- FontAwesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Optional Theme Color -->
+  <meta name="theme-color" content="#007bff">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      padding: 20px;
+      color: #333;
+    }
+    .content-wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      flex-grow: 1;
+      width: 100%;
+      padding-top: 40px; /* Added top padding */
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+      width: 90%;
+      max-width: 550px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      margin-bottom: 30px; /* Added space between container and how-to-use */
+    }
+    .container::before {
+      content: "";
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 150px;
+      height: 150px;
+      background: linear-gradient(45deg, #1a2980, #26d0ce);
+      border-radius: 50%;
+      z-index: -1;
+    }
+    .container::after {
+      content: "";
+      position: absolute;
+      bottom: -30px;
+      left: -30px;
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+      border-radius: 50%;
+      z-index: -1;
+    }
+    h1 {
+      color: #1a2980;
+      font-size: 2.5rem;
+      margin-bottom: 25px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding-top: 20px; /* Added padding to title */
+      margin-top: 20px;
+    }
+    h1 i {
+      margin-right: 12px;
+      color: #26d0ce;
+    }
+    .input-group {
+      position: relative;
+      margin: 25px 0;
+      width: 100%;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 16px 20px;
+      border-radius: 50px;
+      border: 2px solid #e1e5ee;
+      background: #f8f9fa;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+    input[type="text"]:focus {
+      border-color: #1a2980;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(26, 41, 128, 0.2), inset 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+    button {
+      padding: 16px 32px;
+      margin: 12px 8px;
+      border-radius: 50px;
+      background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1.1rem;
+      box-shadow: 0 6px 15px rgba(26, 41, 128, 0.4);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+    button i {
+      margin-right: 8px;
+    }
+    button::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #26d0ce 0%, #1a2980 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: -1;
+    }
+    button:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(26, 41, 128, 0.5);
+    }
+    button:hover::before {
+      opacity: 1;
+    }
+    button:active {
+      transform: translateY(1px);
+      box-shadow: 0 4px 10px rgba(26, 41, 128, 0.4);
+    }
+    .result {
+      margin-top: 30px;
+      background: #f1f8ff;
+      padding: 25px;
+      border-radius: 15px;
+      animation: fadeIn 0.5s ease;
+      display: none;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .result h2 {
+      color: #1a2980;
+      margin-bottom: 20px;
+      font-size: 1.6rem;
+    }
+    .result h2 i {
+      color: #27ae60;
+      margin-right: 8px;
+    }
+    .result input {
+      width: 100%;
+      padding: 14px;
+      margin: 15px 0;
+      text-align: center;
+      border: 2px solid #d1e7ff;
+      border-radius: 10px;
+      background: #fff;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #1a2980;
+    }
+    .button-group {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 15px;
+    }
+    .how-to-use {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      margin-bottom: 100px;
+      width: 90%;
+      max-width: 550px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      text-align: left;
+      position: relative;
+      z-index: 1;
+    }
+    .how-to-use h2 {
+      text-align: center;
+      color: #1a2980;
+      margin-bottom: 25px;
+      font-size: 1.8rem;
+    }
+    .how-to-use h2 i {
+      color: #26d0ce;
+    }
+    .step {
+      background: #f8f9ff;
+      border-radius: 12px;
+      margin-bottom: 18px;
+      padding: 18px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease;
+      border-left: 4px solid #1a2980;
+    }
+    .step:hover {
+      transform: translateX(5px);
+    }
+    .step i {
+      width: 36px;
+      height: 36px;
+      line-height: 36px;
+      text-align: center;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .one { background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%); }
+    .two { background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%); }
+    .three { background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%); }
+    .four { background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%); }
+    .info { background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); }
+    .check { background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%); }
+    .step-content {
+      flex: 1;
+      font-size: 1.05rem;
+    }
+    .step-content b {
+      color: #1a2980;
+    }
+    .step-content code {
+      background: #eef5ff;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    .footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: linear-gradient(90deg, #1a2980 0%, #26d0ce 100%);
+      color: #fff;
+      padding: 18px 0;
+      text-align: center;
+      box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.2);
+      z-index: 10;
+      left: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .footer button {
+      background: #fff;
+      color: #1a2980;
+      padding: 12px 35px;
+      border-radius: 50px;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    .footer button:hover {
+      background: #f8f9fa;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+    }
+    .footer button:active {
+      transform: translateY(1px);
+    }
+    .success-message {
+      background: #27ae60;
+      color: white;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 15px;
+      text-align: center;
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+    .api-info {
+      background: #1a2980;
+      color: white;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 20px;
+      text-align: center;
+      font-size: 0.8rem;
+    }
+    .api-info i {
+      color: #26d0ce;
+      margin-right: 5px;
+    }
+    .error-message {
+      background: #e74c3c;
+      color: white;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 15px;
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+    @media(max-width: 600px) {
+      .container, .how-to-use { padding: 20px; }
+      h1 { font-size: 2rem; }
+      .button-group { flex-direction: column; }
+      button, .footer button { width: 100%; margin: 10px 0; }
+      .step { padding: 15px; }
+      .content-wrapper {
+        padding-top: 20px; /* Less padding on mobile */
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="content-wrapper">
+    <div class="container">
+      <h1><i class="fa-solid fa-link"></i> URL Shortener</h1>
+      
+      <div class="input-group">
+        <input type="text" id="longUrl" placeholder="https://example.com">
+      </div>
+      
+      <button id="shortenButton" onclick="shortenUrl()">
+        <i class="fa-solid fa-wand-magic-sparkles"></i> Shorten URL
+      </button>
+
+      <div class="error-message" id="errorMessage">
+        <i class="fa-solid fa-triangle-exclamation"></i> <span id="errorText"></span>
+      </div>
+
+      <div class="result" id="result">
+        <h2><i class="fa-solid fa-check-circle"></i> Shortened URL</h2>
+        <input type="text" id="shortUrl" readonly>
+        <div class="button-group">
+          <button onclick="copyShort()">
+            <i class="fa-solid fa-copy"></i> Copy
+          </button>
+          <a id="openLink" href="#" target="_blank">
+            <button>
+              <i class="fa-solid fa-up-right-from-square"></i> Open
+            </button>
+          </a>
+        </div>
+        <div class="success-message" id="copiedMessage">
+          <i class="fa-solid fa-check"></i> URL copied to clipboard!
+        </div>
+      </div>
+      
+      <div class="api-info">
+        <i class="fa-solid fa-tags"></i> I am not a developer, I am a common man.
+      </div>
+    </div>
+
+    <div class="how-to-use">
+      <h2><i class="fa-solid fa-circle-info"></i> How to Use</h2>
+      
+      <div class="step">
+        <i class="fa-solid fa-1 one"></i>
+        <div class="step-content">Enter your long URL in the input box above</div>
+      </div>
+      
+      <div class="step">
+        <i class="fa-solid fa-2 two"></i>
+        <div class="step-content">Click the <b>"Shorten URL"</b> button</div>
+      </div>
+      
+      <div class="step">
+        <i class="fa-solid fa-3 three"></i>
+        <div class="step-content">Your shortened URL will appear below</div>
+      </div>
+      
+      <div class="step">
+        <i class="fa-solid fa-4 four"></i>
+        <div class="step-content">Click <b>Copy</b> to copy to clipboard or <b>Open</b> to visit the URL</div>
+      </div>
+      
+      <div class="step">
+        <i class="fa-solid fa-circle-info info"></i>
+        <div class="step-content">URL must start with <code>http://</code> or <code>https://</code></div>
+      </div>
+      
+      <div class="step">
+        <i class="fa-solid fa-circle-check check"></i>
+        <div class="step-content">Example: <code>https://dulpans.com</code></div>
+      </div>
+    </div>
+  </div> <!-- End of content-wrapper -->
+
+  <div class="footer">
+    <button onclick="window.location.reload()">
+      <i class="fa-solid fa-rotate-right"></i> Reset
+    </button>
+  </div>
+
+  <script>
+    async function shortenUrl() {
+      const button = document.getElementById('shortenButton');
+      const originalText = button.innerHTML;
+      button.disabled = true;
+      button.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
+      
+      const longUrl = document.getElementById('longUrl').value.trim();
+      
+      // Hide previous error
+      document.getElementById('errorMessage').style.display = 'none';
+      
+      // Validate URL format
+      if (!longUrl.startsWith("http://") && !longUrl.startsWith("https://")) {
+        showError("Please enter a valid URL starting with http:// or https://");
+        button.disabled = false;
+        button.innerHTML = originalText;
+        return;
+      }
+
+      try {
+        // Using CORS proxy to avoid CORS issues
+        const proxyUrl = 'https://api.allorigins.win/raw?url=' + 
+                         encodeURIComponent(`https://is.gd/create.php?format=json&url=${encodeURIComponent(longUrl)}`);
+        
+        const response = await fetch(proxyUrl);
+        
+        if (!response.ok) {
+          throw new Error('API request failed');
+        }
+        
+        const data = await response.json();
+        
+        if (data.shorturl) {
+          document.getElementById('shortUrl').value = data.shorturl;
+          document.getElementById('openLink').href = data.shorturl;
+          document.getElementById('result').style.display = 'block';
+          
+          // Scroll to result
+          document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+          const error = data.error || "Unknown error occurred";
+          throw new Error(error);
+        }
+      } catch (err) {
+        console.error("Shortening error:", err);
+        showError(`Failed to shorten URL. Please try again.`);
+      } finally {
+        button.disabled = false;
+        button.innerHTML = originalText;
+      }
+    }
+
+    function showError(message) {
+      const errorElement = document.getElementById('errorMessage');
+      document.getElementById('errorText').textContent = message;
+      errorElement.style.display = 'block';
+    }
+
+    function copyShort() {
+      const shortUrl = document.getElementById('shortUrl');
+      shortUrl.select();
+      shortUrl.setSelectionRange(0, 99999);
+      navigator.clipboard.writeText(shortUrl.value);
+      
+      // Show success message
+      const copiedMessage = document.getElementById('copiedMessage');
+      copiedMessage.style.display = 'block';
+      
+      // Hide message after 3 seconds
+      setTimeout(() => {
+        copiedMessage.style.display = 'none';
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
